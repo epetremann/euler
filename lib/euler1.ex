@@ -1,4 +1,4 @@
-defmodule Euler_pb1 do
+defmodule Euler1 do
   @moduledoc """
   https://projecteuler.net/problem=1
 

@@ -1,6 +1,6 @@
 defmodule Euler3 do
   @moduledoc """
-  https://projecteuler.net/problem=2
+  https://projecteuler.net/problem=3
 
   Problem 3:
   
