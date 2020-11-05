@@ -1,0 +1,46 @@
+defmodule Problem14 do
+  @moduledoc """
+  https://projecteuler.net/problem=13
+
+  Longest Collatz sequence
+
+
+  The following iterative sequence is defined for the set of positive integers:
+
+         n → n/2 (n is even)
+         n → 3n + 1 (n is odd)
+
+  Using the rule above and starting with 13, we generate the following sequence:
+         13 → 40 → 20 → 10 → 5 → 16 → 8 → 4 → 2 → 1
+
+  It can be seen that this sequence (starting at 13 and finishing at 1) contains 10 terms.
+  Although it has not been proved yet (Collatz Problem), it is thought that all starting numbers finish at 1.
+
+  Which starting number, under one million, produces the longest chain?
+
+  Note:  Once the chain starts the terms are allowed to go above one million.
+
+
+  """
+
+  @doc """
+
+
+  """
+
+# def collatz_sequence(n) do
+#   collatz_sequence(n, [])
+# end
+# def collatz_sequence(n, list) when n <= 1 do
+#   [ 1 | list ] |> Enum.reverse
+# end
+# def collatz_sequence(n, list) do
+#   result =   
+#     if rem(n,2) == 0 do
+#       collatz_sequence(div(n,2), [n | list])
+#     else
+#       collatz_sequence(3*n+1, [n | list])
+#     end
+#   result
+# end
+end
