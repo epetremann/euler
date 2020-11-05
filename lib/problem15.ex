@@ -1,24 +1,17 @@
-defmodule Problem14 do
+defmodule Problem15 do
   @moduledoc """
-  https://projecteuler.net/problem=13
-
-  Longest Collatz sequence
+  https://projecteuler.net/problem=15
 
 
-  The following iterative sequence is defined for the set of positive integers:
+  lattice path
 
-         n → n/2 (n is even)
-         n → 3n + 1 (n is odd)
 
-  Using the rule above and starting with 13, we generate the following sequence:
-         13 → 40 → 20 → 10 → 5 → 16 → 8 → 4 → 2 → 1
+  Starting in the top left corner of a 2×2 grid, and only being able to move to the right and down,
+  there are exactly 6 routes to the bottom right corner.
 
-  It can be seen that this sequence (starting at 13 and finishing at 1) contains 10 terms.
-  Although it has not been proved yet (Collatz Problem), it is thought that all starting numbers finish at 1.
 
-  Which starting number, under one million, produces the longest chain?
 
-  Note:  Once the chain starts the terms are allowed to go above one million.
+  How many such routes are there through a 20×20 grid?
 
 
   """
@@ -28,43 +21,13 @@ defmodule Problem14 do
 
   """
 
-  def longest_collatz_sequence(big_number \\ 999_999) do
-    longest_collatz_sequence(big_number, 0, 0)
+  def factorial(n) when n <= 0 do
+    1
   end
-
-  def longest_collatz_sequence(0, max_starting, max_sequence) do
-    {max_starting, max_sequence}
+  def factorial(n) do
+    Enum.reduce(1..n, 1, fn(x,acc) -> x*acc end)
   end
-
-  def longest_collatz_sequence(big_number, max_starting, max_sequence) do
-    sequence = collatz_sequence_length(big_number)
-    # IO.inspect({ :big_number, big_number, :sequence, sequence, :max_starting, max_starting, :max_sequence, max_sequence } )
-    if sequence > max_sequence do
-      longest_collatz_sequence(big_number-1, big_number, sequence)
-    else
-      longest_collatz_sequence(big_number-1, max_starting, max_sequence)
-    end
+  def binomial_coefficient( n \\ 40, k \\ 20) do
+    div(factorial(n), factorial(k)*factorial(k))
   end
-
-  def collatz_sequence(n) do
-    collatz_sequence(n, [])
-  end
-
-  def collatz_sequence(n, list) when n <= 1 do
-    [ 1 | list ] |> Enum.reverse
-  end
-  def collatz_sequence(n, list) do
-    result =
-      if rem(n,2) == 0 do
-        collatz_sequence(div(n,2), [n | list])
-      else
-        collatz_sequence(3*n+1, [n | list])
-      end
-    result
-  end
-
-  def collatz_sequence_length(n) do
-    collatz_sequence(n) |> length
-  end
-
-  end
+end
