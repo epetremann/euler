@@ -219,7 +219,7 @@ defmodule Problem13 do
         ] 
         |> Enum.sum             # calculate sum of 100 int.
         |> to_charlist          # convert to char_list
-        |> Enum.chunk_every(10) # cunt in 10 chars chunks
+        |> Enum.chunk_every(10) # cut in 10 chars chunks
         |> hd                   # and keep the first 
 
   end

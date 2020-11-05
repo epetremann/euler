@@ -2,12 +2,17 @@ defmodule Problem9 do
   @moduledoc """
   https://projecteuler.net/problem=9
 
-  Summation of primes
+  Special Pythagorian triplet
 
-  The sum of prime numbers below ten is :
-  2 + 3 + 5 + 7 = 17
 
-  Find the sum of primes below two million
+
+  A Pythagorean triplet is a set of three natural numbers, a < b < c, for which,
+  a2 + b2 = c2
+
+  For example, 32 + 42 = 9 + 16 = 25 = 52.
+
+  There exists exactly one Pythagorean triplet for which a + b + c = 1000.
+  Find the product abc.
 
   
   """
@@ -17,39 +22,24 @@ defmodule Problem9 do
 
   """
 
-  def sum_of_primes_below(big_number \\ 2_000_000) do
-    sum_of_primes_below(3, [2], big_number)
+  def pythagorian_triplet(n \\ 1000) do
+    pythagorian_triplet(div(n,2)-1, 1, n) 
   end
-  defp sum_of_primes_below(n, list, big_number) when n >= big_number do
-    IO.inspect({n, list, big_number})
-    Enum.sum(list)
+  defp pythagorian_triplet(a, _b, _n) when a <= 0 do
+    nil
   end
-  defp sum_of_primes_below(n, list, big_number) do
-    IO.inspect({:current_number, n})
-    if is_prime?(n,Enum.reverse(list)) do
-      sum_of_primes_below(n+2, [n | list], big_number)
-    else
-      sum_of_primes_below(n+2, list, big_number)
-    end
+  defp pythagorian_triplet(a, b, n) when b >= a do
+    pythagorian_triplet(a-1, 1, n) 
   end
-  defp is_prime?(_n, []) do
-    true
+
+  defp pythagorian_triplet(a, b, n) when (a*a + b*b == (n-a-b)*(n-a-b)) do
+    c=1000-a-b
+    {a*b*c, a,b,c}
   end
-  defp is_prime?(n, [ head | tail]) when ( head*head < n ) do
-    # IO.inspect({head*head < n, n, head, tail })
-    if rem(n,head) == 0 do
-      false
-    else
-      is_prime?(n, tail)
-    end
+  defp pythagorian_triplet(a, b, n) do
+    pythagorian_triplet(a, b+1, n) 
   end
-  defp is_prime?(n, [ head | _tail]) do
-    # IO.inspect({head*head < n, n, head, tail })
-    if rem(n,head) == 0 do
-      false
-    else
-      true
-    end
-  end
+
+
   
 end
