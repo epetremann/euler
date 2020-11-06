@@ -6,13 +6,11 @@ defmodule Problem15 do
   lattice path
 
 
-  Starting in the top left corner of a 2×2 grid, and only being able to move to the right and down,
+  Starting in the top left corner of a 2×2 grid, and only being able to 
+  move to the right and down,
   there are exactly 6 routes to the bottom right corner.
 
-
-
   How many such routes are there through a 20×20 grid?
-
 
   """
 
@@ -21,13 +19,17 @@ defmodule Problem15 do
 
   """
 
-  def factorial(n) when n <= 0 do
+  def lattice_path(size \\ 20) do
+    binomial_coefficient(size*2, size)
+  end
+  defp factorial(n) when n <= 0 do
     1
   end
-  def factorial(n) do
+  defp factorial(n) do
     Enum.reduce(1..n, 1, fn(x,acc) -> x*acc end)
   end
-  def binomial_coefficient( n \\ 40, k \\ 20) do
+  defp binomial_coefficient(n, k) do
     div(factorial(n), factorial(k)*factorial(k))
   end
+
 end

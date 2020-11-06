@@ -223,4 +223,7 @@ defmodule Problem13 do
         |> hd                   # and keep the first 
 
   end
+  def hello(name) do
+  end
+
 end
