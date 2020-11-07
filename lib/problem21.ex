@@ -40,6 +40,7 @@ defmodule Problem21 do
     find_proper_divisors(n) |> Enum.sum
   end
   def find_proper_divisors(n) do
+    require IEx; IEx.pry
     find_proper_divisors(n, 2, [1])
   end
   def find_proper_divisors(n,f, divisors) do 
