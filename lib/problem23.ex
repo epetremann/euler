@@ -31,15 +31,27 @@ defmodule Problem23 do
   """
 
   @doc """
-
+  main function of current module
 
   """
+  def main() do
+    time_start = Time.utc_now    # start chrono
+
+    result = non_abundant_sum()
+
+    time_finish = Time.utc_now   # stop chrono
+
+    IO.puts "Result         : #{result}"
+    IO.puts "Execution time : #{Time.diff(time_finish,time_start)}s"
+  end
 
   def non_abundant_sum() do
+
     list_abundants = get_list_abundants()
-    sum = 2..28123 
-    |> Enum.filter(fn(x)-> not is_sum_of_two_abundant(x, list_abundants) end)
-    |> Enum.sum
+    sum = 
+      2..28123 
+      |> Enum.filter(fn(x)-> not is_sum_of_two_abundant?(x, list_abundants) end)
+      |> Enum.sum
     sum+1
 
   end #non_abundant_sum
@@ -73,9 +85,17 @@ defmodule Problem23 do
     2..n |> Enum.filter(fn(x) -> is_abundant?(x) end)
   end
 
-  def is_sum_of_two_abundant(n, list_abudant) do
-    IO.inspect(n)
-    list_abudant |> Enum.any?(fn(x)-> n-x in list_abudant end)
-   end
+  def is_sum_of_two_abundant?(_n, [] ) do
+    false
+  end
+
+  def is_sum_of_two_abundant?(n, [h | tail] ) do
+    cond do
+      2*h > n -> false
+      2*h == n  or n-h in tail -> true
+      true -> is_sum_of_two_abundant?(n, tail)
+    end
+   end #is_sum_of_two_abundant?
+
 
 end # module
