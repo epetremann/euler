@@ -25,7 +25,7 @@ defmodule Problem63 do
   end #main
 
   def powerful_digit_counts(n) do
-    powerful_digit_counts(n,1,1,[])
+    powerful_digit_counts(n,1,1,[]) |> length
   end
   def powerful_digit_counts(n,p,i,list) do
       cond do
