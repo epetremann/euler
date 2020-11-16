@@ -13,11 +13,12 @@ defmodule Problem37 do
   
   """
 
-  def main() do
+  def main(fun_test \\ &truncable_primes/1 , 
+           param \\ 1_000_000) do
     time_start = Time.utc_now    # start chrono
 
     result = 
-      truncable_primes(1_000_000) 
+      fun_test.(param) 
       |> IO.inspect()
       |> Enum.sum
 
