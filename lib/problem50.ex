@@ -23,7 +23,7 @@ defmodule Problem50 do
   def main() do
     time_start = Time.utc_now    # start chrono
 
-    result = consecuteive_prime_sum(1_000_000)
+    result = solve(1_000_000)
 
     time_finish = Time.utc_now   # stop chrono
     time_delta = Time.diff(time_finish, time_start, :microsecond)
@@ -37,23 +37,37 @@ defmodule Problem50 do
 
   @doc """
   """
-  def consecuteive_prime_sum(n \\ 100_000, smax \\ 1_000_000) do
-    prime_list = 1..n-1 |> Enum.filter(&is_prime?/1)
-    prime_count = Enum.count(prime_list)
-    for a <- 0..prime_count-1 do
-      for b <- a+1..prime_count do
-        prime_seq = prime_list |> Enum.slice(a,b)
-        prime_seq_sum = prime_seq |> Enum.sum
-        if is_prime?(prime_seq_sum) do
-          {prime_seq_sum, b }
+  def solve(n_max \\ 1_000_000) do
+    prime_list_sum = sum_prime(n_max)
+    imax = (prime_list_sum |> Enum.count)-1
+    [{ _, result, _ }] = 
+      for i <- 0..imax-1 do
+        {p1, acc1} = prime_list_sum |> Enum.at(i)
+        for j <- i+1..imax do
+          {p2, acc2} = prime_list_sum |> Enum.at(j)
+          sum_floating = p1 + acc2 - acc1
+          if is_prime?(sum_floating) do
+            {{p1,p2},sum_floating, j-i+1}
+          end
         end
+        |> Enum.filter(&(&1))
       end
-    end 
-    |> List.flatten
-    |> Stream.filter(fn x -> x != nil end)
-    |> Enum.sort_by(fn {_x,y} -> y end)
-    |> Stream.filter(fn {x,_y,} ->  x < smax end)
-    |> Enum.take(-6)
+      |> List.flatten
+      |> Enum.sort_by(fn {_, _, delta} -> delta end)
+      |> Enum.filter(fn {_, acc, _} -> acc < n_max end)
+      |> Enum.take(-1)
+    result
+  end
+
+  def sum_prime(nmax) do
+    do_sum_prime(3, 2, [{2,2}], nmax)
+  end
+  def do_sum_prime(n, acc, list, nmax) do
+    cond do 
+      acc > nmax -> list |> Enum.reverse
+      is_prime?(n) -> do_sum_prime(n+2, acc+n, [ {n, acc+n} | list], nmax)
+      true -> do_sum_prime(n+2, acc, list, nmax)
+    end
   end
 
   def is_prime?(n) do
