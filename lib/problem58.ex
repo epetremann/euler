@@ -28,7 +28,7 @@ defmodule Problem58 do
   def main() do
     time_start = Time.utc_now    # start chrono
 
-    result = solve()
+    result = solve(99999)
 
     time_finish = Time.utc_now   # stop chrono
     time_delta = Time.diff(time_finish, time_start, :microsecond)
@@ -40,17 +40,40 @@ defmodule Problem58 do
     IO.puts "Execution time : #{delta_sec} s,  #{delta_msec} ms #{delta_micsec} micros"
   end #main
 
-  def solve() do
-  end
-  def number_spiral_diagonals(n) when rem(n,2) == 1 do
-    number_spiral_diagonals(n,[1],2) 
-    |> Enum.sum
+  def solve(n) do
+    n_diags = number_spiral_diagonals(n)
+    n_diags_prem = 
+      n_diags 
+      |> Enum.filter(&is_prime?/1)
+    prime_ratio = length(n_diags_prem) / length(n_diags) * 100
+    IO.inspect{n, prime_ratio}
+    cond do
+      prime_ratio < 10 -> n
+      true -> solve(n+2)
+    end
+
   end
 
-  def number_spiral_diagonals(n,[h | tail],step) do
+  def number_spiral_diagonals(n) when rem(n,2) == 1 do
+    number_spiral_diagonals(n,[1],2,1,0) 
+  end
+
+  def number_spiral_diagonals(n,[h | tail],step, count_diag, count_prime) do
+    ratio = count_prime/count_diag * 100.0
+    IO.inspect{step-1,ratio}
     cond do
+      ratio > 9 and ratio < 10.0 -> step-1
       step+1 > n -> [ h | tail]
-      true -> number_spiral_diagonals(n, [ h + step*4, h+step*3, h+step*2, h+step, h | tail ], step+2)
+      true -> 
+        np_primes = 
+          [h + step*4, h+step*3, h+step*2, h+step]
+          |> Enum.filter(&is_prime?/1)
+          |> Enum.count
+        number_spiral_diagonals(n, 
+          [ h + step*4, h+step*3, h+step*2, h+step, h | tail ], 
+          step+2, 
+          count_diag+4, 
+          count_prime + np_primes )
     end
   end
   
