@@ -47,26 +47,22 @@ defmodule Problem89 do
   end #main
 
   def solve(filepath \\ "./data/p089_roman.txt") do
-    IO.inspect(filepath)
-    {:ok, data_before} = File.read(filepath)
-    count_before = String.length(data_before)
-    data_after = data_before 
+    {:ok, data} = File.read(filepath)
+    data
     |> String.trim
     |> String.split("\n")
-    |> IO.inspect
-    |> Enum.map(&roman_decode/1)
-    |> Enum.map(&roman_encode/1)
-    |> IO.inspect
-    |> Enum.join("\n")
-
-   romans_before = data_before |> String.split("\n")
-   romans_after = data_after |> String.split("\n")
-   for x <- Enum.zip(romans_before, romans_after), do: IO.inspect(x)
-
-    count_after = String.length(data_after)
-    { count_before - count_after, count_before, count_after }
+    |> Enum.reduce(0, fn(x, acc) -> acc + roman_simplify(x) end)
   end
 
+  def roman_simplify(s) do
+    String.length(s) - (
+    s
+    |> roman_decode
+    |> roman_encode
+    |> String.length
+    )
+  end
+    
   def roman_encode(n),  do: roman_encode(n, "")
   def roman_encode(n, s) do
     cond do
