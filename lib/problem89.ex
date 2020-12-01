@@ -62,7 +62,7 @@ defmodule Problem89 do
     |> String.length
     )
   end
-    
+
   def roman_encode(n),  do: roman_encode(n, "")
   def roman_encode(n, s) do
     cond do
