@@ -1,4 +1,4 @@
-defmodule Problem25 do
+defmodule Euler.Problem25 do
   @moduledoc """
   https://projecteuler.net/problem=25
 
@@ -34,18 +34,19 @@ defmodule Problem25 do
 
 
   """
-  def fibonacci_1000_digits( dig_size \\ 10) do
+  def fibonacci_1000_digits(dig_size \\ 10) do
     fibonacci(1, 1, 2, dig_size)
   end
 
   def fibonacci(a, b, index, dig_size) do
-    { a, b, index} = { a+b , a, index+1} 
-    if length(Integer.to_charlist(a))  >= dig_size do
-      { a, index }
+    {a, b, index} = {a + b, a, index + 1}
+
+    if length(Integer.to_charlist(a)) >= dig_size do
+      {a, index}
     else
       fibonacci(a, b, index, dig_size)
     end
   end
+end
 
-
-end # module
+# module

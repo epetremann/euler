@@ -1,4 +1,4 @@
-defmodule Problem26 do
+defmodule Euler.Problem26 do
   @moduledoc """
   https://projecteuler.net/problem=26
 
@@ -20,7 +20,7 @@ defmodule Problem26 do
 
   Where 0.1(6) means 0.166666..., and has a 1-digit recurring cycle. 
   It can be seen that 1/7 has a 6-digit recurring cycle.
-  
+
   Find the value of d < 1000 for which 1/d contains the longest recurring cycle in its i
   decimal fraction part.
 
@@ -31,32 +31,31 @@ defmodule Problem26 do
 
 
   """
-  def reciprocal_cycles( dig_size \\ 1000) do
-    big_c = ([?1] ++ for _i <- 1..dig_size, do: ?0)
-    big_i = big_c |> List.to_integer
-    d_cycles = for d <- 2..1000, do: {d,cycle_length(big_i,d)}
-    d_cycles 
-    |> Enum.sort_by(fn {_d,cycle_l} -> cycle_l end, :desc) 
+  def reciprocal_cycles(dig_size \\ 1000) do
+    big_c = [?1] ++ for _i <- 1..dig_size, do: ?0
+    big_i = big_c |> List.to_integer()
+    d_cycles = for d <- 2..1000, do: {d, cycle_length(big_i, d)}
+
+    d_cycles
+    |> Enum.sort_by(fn {_d, cycle_l} -> cycle_l end, :desc)
     |> hd
   end
 
   def cycle_length(big_i, d) do
-    s = div(big_i,d)|> Integer.to_string
+    s = div(big_i, d) |> Integer.to_string()
+
     if String.length(s) > 5 do
-      pattern = String.slice(s,-3..-1)
-      (
-        pattern <>
-          (
-          String.split(s, pattern)
+      pattern = String.slice(s, -3..-1)
+
+      (pattern <>
+         (String.split(s, pattern)
           |> List.delete_at(0)
-          |> hd
-        ) 
-      ) 
-      |> String.length
+          |> hd))
+      |> String.length()
     else
       0
     end
   end
+end
 
-
-end # module
+# module

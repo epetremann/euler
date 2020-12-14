@@ -1,11 +1,10 @@
-defmodule Problem67 do
-
+defmodule Euler.Problem67 do
   @moduledoc """
   https://projecteuler.net/problem=67
 
   Maximum path sum I
 
-  
+
 
   By starting at the top of the triangle below and moving to adjacent numbers on
   the row below, the maximum total from top to bottom is 23.
@@ -41,35 +40,39 @@ defmodule Problem67 do
 
   """
 
-
   @doc """
   bla bla bla
   """
   def max_path_sum() do
-    generate_tree() 
-    |> Enum.reduce([],fn list,acc -> sum_lists(acc, list) end)
-    |> Enum.max
-  end 
+    generate_tree()
+    |> Enum.reduce([], fn list, acc -> sum_lists(acc, list) end)
+    |> Enum.max()
+  end
 
   def generate_tree() do
-    {:ok, raw_input} =File.read("data/p067_triangle.txt")
-    raw_input 
+    {:ok, raw_input} = File.read("data/p067_triangle.txt")
+
+    raw_input
     |> String.split("\n")
     |> Enum.filter(fn x -> x != "" end)
-    |> Enum.map(fn(x) -> string_to_integer_list(x) end)
+    |> Enum.map(fn x -> string_to_integer_list(x) end)
   end
 
   def string_to_integer_list(input) do
-    input 
+    input
     |> String.split(" ")
-    |> Enum.map(fn(x)->String.to_integer(x)end)
+    |> Enum.map(fn x -> String.to_integer(x) end)
   end
 
   def sum_lists(a_list, b_list) do
-    a_pairs = [0] ++ a_list ++ [0] |> Enum.chunk_every(2,1,:discard)
-    for {[a1,a2],b1} <- Enum.zip([a_pairs, b_list]) do
-      Enum.max([a1+b1,a2+b1])
-    end 
-  end #sum_lists
- 
-end # module
+    a_pairs = ([0] ++ a_list ++ [0]) |> Enum.chunk_every(2, 1, :discard)
+
+    for {[a1, a2], b1} <- Enum.zip([a_pairs, b_list]) do
+      Enum.max([a1 + b1, a2 + b1])
+    end
+  end
+
+  # sum_lists
+end
+
+# module

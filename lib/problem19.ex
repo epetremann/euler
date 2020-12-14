@@ -1,5 +1,4 @@
-defmodule Problem19 do
-
+defmodule Euler.Problem19 do
   @moduledoc """
   https://projecteuler.net/problem=19
 
@@ -21,18 +20,24 @@ defmodule Problem19 do
 
   """
 
-
   @doc """
 
 
   """
   def counting_sundays() do
-    for year <- 1901..2000 do      # For each year
-      for month <- 1..12 do        # For each month
-        {:ok, d} = Date.new(year, month, 1)  
-        Date.day_of_week(d)       
-      end |> Enum.count(fn x -> x==7 end) # 7 is Sunday
-    end |> Enum.sum     # Sum on all years
-  end   
+    # For each year
+    for year <- 1901..2000 do
+      # For each month
+      for month <- 1..12 do
+        {:ok, d} = Date.new(year, month, 1)
+        Date.day_of_week(d)
+      end
+      # 7 is Sunday
+      |> Enum.count(fn x -> x == 7 end)
+    end
+    # Sum on all years
+    |> Enum.sum()
+  end
+end
 
-end # module
+# module

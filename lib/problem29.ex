@@ -1,4 +1,4 @@
-defmodule Problem29 do
+defmodule Euler.Problem29 do
   @moduledoc """
   https://projecteuler.net/problem=29
 
@@ -22,33 +22,37 @@ defmodule Problem29 do
   """
 
   def main() do
-    time_start = Time.utc_now    # start chrono
+    # start chrono
+    time_start = Time.utc_now()
 
     result = distinct_powers(100, 100)
 
-    time_finish = Time.utc_now   # stop chrono
+    # stop chrono
+    time_finish = Time.utc_now()
     time_sec = Time.diff(time_finish, time_start)
     time_msec = Time.diff(time_finish, time_start, :microsecond) |> rem(1_000_000) |> div(1000)
 
-    IO.puts "Result         : #{result}"
-    IO.puts "Execution time : #{time_sec}sec,  #{time_msec} msec"
-  end #main
+    IO.puts("Result         : #{result}")
+    IO.puts("Execution time : #{time_sec}sec,  #{time_msec} msec")
+  end
 
+  # main
 
   def distinct_powers(amax \\ 100, bmax \\ 100) do
     for a <- 2..amax, b <- 2..bmax do
-      power(a,b)
-    end 
-    |> Enum.uniq
-    |> Enum.sort
+      power(a, b)
+    end
+    |> Enum.uniq()
+    |> Enum.sort()
     |> length
   end
 
-  def power(a,b) do
+  def power(a, b) do
     cond do
       b <= 0 -> 1
-      true -> a*power(a,b-1)
+      true -> a * power(a, b - 1)
     end
   end
-  
-end #module
+end
+
+# module

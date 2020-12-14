@@ -1,4 +1,4 @@
-defmodule Problem6 do
+defmodule Euler.Problem6 do
   @moduledoc """
   https://projecteuler.net/problem=6
 
@@ -18,28 +18,18 @@ defmodule Problem6 do
 
   Find the difference between the sum of the squares of the first one hundred natural numbers 
   and the square of the sum.`
-  
-  """
-
-  @doc """
-
 
   """
 
-  defp diff_sum_squares(n,squares, sum) when n <= 0 do
+  defp diff_sum_squares(n, squares, sum) when n <= 0 do
     sum * sum - squares
   end
-  defp diff_sum_squares(n,squares, sum) do
-    diff_sum_squares(n-1, squares+n*n, sum+n)
+
+  defp diff_sum_squares(n, squares, sum) do
+    diff_sum_squares(n - 1, squares + n * n, sum + n)
   end
+
   def diff_sum_squares(n) do
     diff_sum_squares(n, 0, 0)
   end
-
-
-  
-
-
-
-  
 end

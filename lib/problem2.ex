@@ -1,4 +1,4 @@
-defmodule Euler2 do
+defmodule Euler.Problem2 do
   @moduledoc """
   https://projecteuler.net/problem=2
 
@@ -10,7 +10,7 @@ defmodule Euler2 do
 
   By considering the terms in the Fibonacci sequence whose values do not exceed four million, 
   find the sum of the even-valued terms.
-  
+
   """
 
   @doc """
@@ -21,19 +21,20 @@ defmodule Euler2 do
   """
   def fibonacci(0), do: []
   def fibonacci(1), do: [1]
-  def fibonacci(2), do: [1,2]
-  def fibonacci(n), do: fibonacci([2,1],n)
-  def fibonacci([b,a | tail],n) do
-    if (a+b > n) do
-      [b,a | tail] |> Enum.reverse
+  def fibonacci(2), do: [1, 2]
+  def fibonacci(n), do: fibonacci([2, 1], n)
+
+  def fibonacci([b, a | tail], n) do
+    if a + b > n do
+      [b, a | tail] |> Enum.reverse()
     else
-      fibonacci([a+b, b, a | tail], n-1)
+      fibonacci([a + b, b, a | tail], n - 1)
     end
   end
-  def sum_of_even_fibonacci(n) do
-    fibonacci(n) |> 
-    Enum.filter(fn x -> rem(x,2)==0 end) |>
-    Enum.sum
-  end
 
+  def sum_of_even_fibonacci(n) do
+    fibonacci(n)
+    |> Enum.filter(fn x -> rem(x, 2) == 0 end)
+    |> Enum.sum()
+  end
 end

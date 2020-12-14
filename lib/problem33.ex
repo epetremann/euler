@@ -1,4 +1,4 @@
-defmodule Problem33 do
+defmodule Euler.Problem33 do
   @moduledoc """
   https://projecteuler.net/problem=33
 
@@ -22,39 +22,42 @@ defmodule Problem33 do
   The purpose of the `main` function is to measure the execution time of a function.
   """
   def main() do
-    time_start = Time.utc_now    # start chrono
+    # start chrono
+    time_start = Time.utc_now()
 
     result = digit_cancel_fract()
 
-    time_finish = Time.utc_now   # stop chrono
+    # stop chrono
+    time_finish = Time.utc_now()
     time_delta = Time.diff(time_finish, time_start, :microsecond)
     delta_sec = div(time_delta, 1_000_000)
     delta_msec = div(time_delta, 1_000)
     delta_micsec = rem(time_delta, 1_000)
 
-    IO.puts "Result         : "
-    IO.inspect result
-    IO.puts "Execution time : #{delta_sec}sec,  #{delta_msec}msec #{delta_micsec} microsec"
+    IO.puts("Result         : ")
+    IO.inspect(result)
+    IO.puts("Execution time : #{delta_sec}sec,  #{delta_msec}msec #{delta_micsec} microsec")
   end
 
   @doc """
   """
   def digit_cancel_fract() do
     for top <- 10..99 do
-      for bottom <- top+1..99 do 
-        {t1,t2} = {rem(top,10),div(top,10)}
-        {b1,b2} = {rem(bottom,10),div(bottom,10)}
+      for bottom <- (top + 1)..99 do
+        {t1, t2} = {rem(top, 10), div(top, 10)}
+        {b1, b2} = {rem(bottom, 10), div(bottom, 10)}
+
         cond do
-          top/bottom < 1 and t1 == b2  and b1 != 0 and t2/b1 == top/bottom -> {top,bottom}
-          top/bottom < 1 and t2 == b1  and b2 != 0 and t1/b2 == top/bottom -> {top,bottom}
+          top / bottom < 1 and t1 == b2 and b1 != 0 and t2 / b1 == top / bottom -> {top, bottom}
+          top / bottom < 1 and t2 == b1 and b2 != 0 and t1 / b2 == top / bottom -> {top, bottom}
           true -> nil
         end
       end
     end
-    |> List.flatten
+    |> List.flatten()
     |> Enum.filter(fn x -> x != nil end)
-    |> IO.inspect
-    |> Enum.map(fn {a,b} -> {div(a,10), rem(b,10)} end)
-    |> Enum.reduce({1,1}, fn {a,b},{aca,acb} -> {a*aca, b*acb} end)
+    |> IO.inspect()
+    |> Enum.map(fn {a, b} -> {div(a, 10), rem(b, 10)} end)
+    |> Enum.reduce({1, 1}, fn {a, b}, {aca, acb} -> {a * aca, b * acb} end)
   end
 end

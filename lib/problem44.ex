@@ -1,4 +1,4 @@
-defmodule Problem44 do
+defmodule Euler.Problem44 do
   @moduledoc """
   https://projecteuler.net/problem=44
 
@@ -21,37 +21,46 @@ defmodule Problem44 do
   The purpose of the `main` function is to measure the execution time of a function.
   """
   def main() do
-    time_start = Time.utc_now    # start chrono
+    # start chrono
+    time_start = Time.utc_now()
 
-    result = pentagon_numbers(1,2,10_000)
+    result = pentagon_numbers(1, 2, 10_000)
 
-    time_finish = Time.utc_now   # stop chrono
+    # stop chrono
+    time_finish = Time.utc_now()
     time_delta = Time.diff(time_finish, time_start, :microsecond)
     delta_sec = div(time_delta, 1_000_000)
     delta_msec = div(time_delta, 1_000)
     delta_micsec = rem(time_delta, 1_000)
 
-    IO.puts "Result         : "
-    IO.inspect result
-    IO.puts "Execution time : #{delta_sec}sec,  #{delta_msec}msec #{delta_micsec} microsec"
+    IO.puts("Result         : ")
+    IO.inspect(result)
+    IO.puts("Execution time : #{delta_sec}sec,  #{delta_msec}msec #{delta_micsec} microsec")
   end
 
   @doc """
   """
-  def pentagon_numbers(i,j, max) do
-    {pi, pj} = { pentagon(i), pentagon(j) }
-    {sum, diff} = {pi+pj, abs(pj-pi)}
+  def pentagon_numbers(i, j, max) do
+    {pi, pj} = {pentagon(i), pentagon(j)}
+    {sum, diff} = {pi + pj, abs(pj - pi)}
+
     cond do
       is_pentagon?(diff) and is_pentagon?(sum) ->
-        IO.inspect {i, j, pi, pj, sum, diff}
+        IO.inspect({i, j, pi, pj, sum, diff})
         diff
-      j > max -> pentagon_numbers(i+1,i+2, max)
-      true -> pentagon_numbers(i,j+1, max)
+
+      j > max ->
+        pentagon_numbers(i + 1, i + 2, max)
+
+      true ->
+        pentagon_numbers(i, j + 1, max)
     end
   end
-  def pentagon(n) when is_integer(n) and n > 0, do: n*(3*n-1) |> div(2)
+
+  def pentagon(n) when is_integer(n) and n > 0, do: (n * (3 * n - 1)) |> div(2)
+
   def is_pentagon?(x) do
-    n = (:math.sqrt(24*x+1)+1)/6
+    n = (:math.sqrt(24 * x + 1) + 1) / 6
     n == ceil(n)
   end
 end

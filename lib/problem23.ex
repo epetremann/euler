@@ -1,4 +1,4 @@
-defmodule Problem23 do
+defmodule Euler.Problem23 do
   @moduledoc """
   https://projecteuler.net/problem=23
 
@@ -35,67 +35,78 @@ defmodule Problem23 do
 
   """
   def main() do
-    time_start = Time.utc_now    # start chrono
+    # start chrono
+    time_start = Time.utc_now()
 
     result = non_abundant_sum()
 
-    time_finish = Time.utc_now   # stop chrono
+    # stop chrono
+    time_finish = Time.utc_now()
 
-    IO.puts "Result         : #{result}"
-    IO.puts "Execution time : #{Time.diff(time_finish,time_start)}s"
+    IO.puts("Result         : #{result}")
+    IO.puts("Execution time : #{Time.diff(time_finish, time_start)}s")
   end
 
   def non_abundant_sum() do
-
     list_abundants = get_list_abundants()
-    sum = 
-      2..28123 
-      |> Enum.filter(fn(x)-> not is_sum_of_two_abundant?(x, list_abundants) end)
-      |> Enum.sum
-    sum+1
 
-  end #non_abundant_sum
+    sum =
+      2..28123
+      |> Enum.filter(fn x -> not is_sum_of_two_abundant?(x, list_abundants) end)
+      |> Enum.sum()
+
+    sum + 1
+  end
+
+  # non_abundant_sum
 
   def find_divisors(n) do
     d = floor(:math.sqrt(n))
-    if d*d == n do
-      find_divisors(d-1, n, [d])
+
+    if d * d == n do
+      find_divisors(d - 1, n, [d])
     else
       find_divisors(d, n, [])
     end
-  end #find_divisors
+  end
+
+  # find_divisors
 
   def find_divisors(1, _n, list) do
-    [1 | list] |> Enum.sort
+    [1 | list] |> Enum.sort()
   end
 
   def find_divisors(d, n, list) do
-    if rem(n,d) == 0 do
-      find_divisors(d-1, n, [d, div(n,d) | list])
+    if rem(n, d) == 0 do
+      find_divisors(d - 1, n, [d, div(n, d) | list])
     else
-      find_divisors(d-1, n, list)
+      find_divisors(d - 1, n, list)
     end
-  end #find_divisors
+  end
+
+  # find_divisors
 
   def is_abundant?(n) do
-    (n |> find_divisors |> Enum.sum) > n
+    n |> find_divisors |> Enum.sum() > n
   end
 
   def get_list_abundants(n \\ 28123) do
-    2..n |> Enum.filter(fn(x) -> is_abundant?(x) end)
+    2..n |> Enum.filter(fn x -> is_abundant?(x) end)
   end
 
-  def is_sum_of_two_abundant?(_n, [] ) do
+  def is_sum_of_two_abundant?(_n, []) do
     false
   end
 
-  def is_sum_of_two_abundant?(n, [h | tail] ) do
+  def is_sum_of_two_abundant?(n, [h | tail]) do
     cond do
-      2*h > n -> false
-      2*h == n  or n-h in tail -> true
+      2 * h > n -> false
+      2 * h == n or (n - h) in tail -> true
       true -> is_sum_of_two_abundant?(n, tail)
     end
-   end #is_sum_of_two_abundant?
+  end
 
+  # is_sum_of_two_abundant?
+end
 
-end # module
+# module

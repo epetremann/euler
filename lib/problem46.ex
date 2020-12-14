@@ -1,4 +1,4 @@
-defmodule Problem46 do
+defmodule Euler.Problem46 do
   @moduledoc """
   https://projecteuler.net/problem=46
 
@@ -26,65 +26,81 @@ defmodule Problem46 do
   function.
   """
   def main() do
-    time_start = Time.utc_now    # start chrono
+    # start chrono
+    time_start = Time.utc_now()
 
     result = solve(5)
 
-    time_finish = Time.utc_now   # stop chrono
+    # stop chrono
+    time_finish = Time.utc_now()
     time_delta = Time.diff(time_finish, time_start, :microsecond)
     delta_sec = div(time_delta, 1_000_000)
     delta_msec = div(time_delta, 1_000)
     delta_micsec = rem(time_delta, 1_000)
 
-    IO.puts "Result         : "
-    IO.inspect result
-    IO.puts "Execution time : #{delta_sec}sec,  #{delta_msec}msec #{delta_micsec} microsec"
+    IO.puts("Result         : ")
+    IO.inspect(result)
+    IO.puts("Execution time : #{delta_sec}sec,  #{delta_msec}msec #{delta_micsec} microsec")
   end
 
   def solve(x \\ 5) do
     if not is_prime?(x) and not is_goldbachs?(x) do
       x
     else
-      solve(x+2)
+      solve(x + 2)
     end
   end
 
   def is_goldbachs?(x) do
-    do_is_goldbachs?(x, x-2)
+    do_is_goldbachs?(x, x - 2)
   end
+
   def do_is_goldbachs?(x, p) do
     # There exist a q such as 2*q*q = x-p 
     if p == 1 do
       false
     else
       if is_prime?(p) do
-        q = ceil(:math.sqrt(div(x-p,2)))
-        if 2*q*q == x-p do
+        q = ceil(:math.sqrt(div(x - p, 2)))
+
+        if 2 * q * q == x - p do
           true
         else
-          do_is_goldbachs?(x, p-2)
+          do_is_goldbachs?(x, p - 2)
         end
       else
-        do_is_goldbachs?(x, p-2)
+        do_is_goldbachs?(x, p - 2)
       end
     end
   end
+
   def is_prime?(n) do
     cond do
-      n <= 1 -> false
-      n in [2,3,5,7,11,13] -> true
-      rem(n,2) == 0 -> false
-      true -> 
-        max_factor = n |> :math.sqrt |> ceil
+      n <= 1 ->
+        false
+
+      n in [2, 3, 5, 7, 11, 13] ->
+        true
+
+      rem(n, 2) == 0 ->
+        false
+
+      true ->
+        max_factor = n |> :math.sqrt() |> ceil
         do_is_prime?(n, 3, max_factor)
     end
   end
+
   def do_is_prime?(n, factor, max_factor) do
     cond do
-      factor > max_factor -> 
+      factor > max_factor ->
         true
-      rem(n, factor) == 0 -> false
-      true -> do_is_prime?(n, factor+2, max_factor)
+
+      rem(n, factor) == 0 ->
+        false
+
+      true ->
+        do_is_prime?(n, factor + 2, max_factor)
     end
   end
 end

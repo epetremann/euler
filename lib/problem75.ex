@@ -1,4 +1,4 @@
-defmodule Problem75 do
+defmodule Euler.Problem75 do
   @moduledoc """
   https://projecteuler.net/problem=75
 
@@ -27,41 +27,49 @@ defmodule Problem75 do
   function.
   """
   def main() do
-    time_start = Time.utc_now    # start chrono
+    # start chrono
+    time_start = Time.utc_now()
 
     result = solve()
 
-    time_finish = Time.utc_now   # stop chrono
+    # stop chrono
+    time_finish = Time.utc_now()
     time_delta = Time.diff(time_finish, time_start, :microsecond)
     delta_sec = div(time_delta, 1_000_000)
     delta_msec = div(time_delta, 1_000)
     delta_micsec = rem(time_delta, 1_000)
 
-    IO.puts "Result         : #{IO.inspect result}"
-    IO.puts "Execution time : #{delta_sec}sec,  #{delta_msec}msec #{delta_micsec} microsec"
+    IO.puts("Result         : #{IO.inspect(result)}")
+    IO.puts("Execution time : #{delta_sec}sec,  #{delta_msec}msec #{delta_micsec} microsec")
   end
+
   def solve(n_max \\ 1_500_000) do
     do_solve(12, 0, n_max)
   end
+
   def do_solve(n, count, n_max) do
     cond do
-      n > n_max -> count
-      find_solutions(n) == 1 -> 
-        IO.inspect {n, count}
-        do_solve(n+1, count+1, n_max)
-      true -> do_solve(n+1, count, n_max)
+      n > n_max ->
+        count
+
+      find_solutions(n) == 1 ->
+        IO.inspect({n, count})
+        do_solve(n + 1, count + 1, n_max)
+
+      true ->
+        do_solve(n + 1, count, n_max)
     end
   end
 
   def find_solutions(l) do
-    for a <- 1..l-2, b <- a+1..l-1 do
-      c = l-a-b
-      if c*c == a*a + b*b do
+    for a <- 1..(l - 2), b <- (a + 1)..(l - 1) do
+      c = l - a - b
+
+      if c * c == a * a + b * b do
         {a, b, c}
       end
     end
-    |> Enum.filter(&(&1))
-    |> Enum.count
+    |> Enum.filter(& &1)
+    |> Enum.count()
   end
-
 end

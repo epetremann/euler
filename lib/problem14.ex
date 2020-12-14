@@ -1,4 +1,4 @@
-defmodule Problem14 do
+defmodule Euler.Problem14 do
   @moduledoc """
   https://projecteuler.net/problem=13
 
@@ -42,11 +42,12 @@ defmodule Problem14 do
 
   def longest_collatz_sequence(big_number, max_starting, max_sequence) do
     sequence = collatz_sequence_length(big_number)
+
     # IO.inspect({ :big_number, big_number, :sequence, sequence, :max_starting, max_starting, :max_sequence, max_sequence } )
     if sequence > max_sequence do
-      longest_collatz_sequence(big_number-1, big_number, sequence)
+      longest_collatz_sequence(big_number - 1, big_number, sequence)
     else
-      longest_collatz_sequence(big_number-1, max_starting, max_sequence)
+      longest_collatz_sequence(big_number - 1, max_starting, max_sequence)
     end
   end
 
@@ -55,20 +56,21 @@ defmodule Problem14 do
   end
 
   def collatz_sequence(n, list) when n <= 1 do
-    [ 1 | list ] |> Enum.reverse
+    [1 | list] |> Enum.reverse()
   end
+
   def collatz_sequence(n, list) do
     result =
-      if rem(n,2) == 0 do
-        collatz_sequence(div(n,2), [n | list])
+      if rem(n, 2) == 0 do
+        collatz_sequence(div(n, 2), [n | list])
       else
-        collatz_sequence(3*n+1, [n | list])
+        collatz_sequence(3 * n + 1, [n | list])
       end
+
     result
   end
 
   def collatz_sequence_length(n) do
     collatz_sequence(n) |> length
   end
-
-  end
+end

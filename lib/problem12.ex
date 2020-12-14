@@ -1,4 +1,4 @@
-defmodule Problem12 do
+defmodule Euler.Problem12 do
   @moduledoc """
   https://projecteuler.net/problem=12
 
@@ -22,7 +22,7 @@ defmodule Problem12 do
       28: 1,2,4,7,14,28
 
   We can see that 28 is the first triangle number to have over five divisors.
-  
+
   What is the value of the first triangle number to have over five hundred divisors?
 
 
@@ -34,20 +34,23 @@ defmodule Problem12 do
   """
 
   def find_divisors(n) do
-    (for i <- 1..ceil(:math.sqrt(n)), rem(n,i)==0 do 
-      i 
-    end  |> length ) *2
+    (for i <- 1..ceil(:math.sqrt(n)), rem(n, i) == 0 do
+       i
+     end
+     |> length) * 2
   end
 
-  def highly_divisible_triangle(n, min_ndivisors \\ 500)  do
-    triangle = (n*(n+1)) |> div(2)
+  def highly_divisible_triangle(n, min_ndivisors \\ 500) do
+    triangle = (n * (n + 1)) |> div(2)
     ndivisors = triangle |> find_divisors
-    res = if ndivisors >= min_ndivisors do
-      triangle
-    else
-      highly_divisible_triangle(n+1, min_ndivisors) 
-    end
+
+    res =
+      if ndivisors >= min_ndivisors do
+        triangle
+      else
+        highly_divisible_triangle(n + 1, min_ndivisors)
+      end
+
     res
   end
-
 end

@@ -1,7 +1,7 @@
-defmodule Problem34 do
+defmodule Euler.Problem34 do
   @moduledoc """
   https://projecteuler.net/problem=34
-  
+
 
   Digit factorials
 
@@ -16,20 +16,25 @@ defmodule Problem34 do
   """
 
   def main() do
-    time_start = Time.utc_now    # start chrono
+    # start chrono
+    time_start = Time.utc_now()
 
     result = digit_factorials()
 
-    time_finish = Time.utc_now   # stop chrono
+    # stop chrono
+    time_finish = Time.utc_now()
     time_sec = Time.diff(time_finish, time_start)
+
     time_msec =
       Time.diff(time_finish, time_start, :microsecond)
       |> rem(1_000_000)
       |> div(1000)
 
-    IO.puts "Result         : #{result}"
-    IO.puts "Execution time : #{time_sec}sec,  #{time_msec} msec"
-  end #main
+    IO.puts("Result         : #{result}")
+    IO.puts("Execution time : #{time_sec}sec,  #{time_msec} msec")
+  end
+
+  # main
 
   def digit_factorials() do
     for i <- 3..1000_000_000 do
@@ -39,25 +44,28 @@ defmodule Problem34 do
       else
         0
       end
-    end 
+    end
     |> Enum.filter(fn x -> x > 0 end)
-    |> Enum.sum
+    |> Enum.sum()
   end
+
   def is_sum_of_dig_fact_equal?(n) do
     sum_of_dig_fact(n) == n
   end
-  def sum_of_dig_fact(n) do 
+
+  def sum_of_dig_fact(n) do
     case n do
       0 -> 0
-      _ -> fact(rem(n,10))+sum_of_dig_fact(div(n,10))
-    end
-  end
-  
-  def fact(n) do
-    case n do
-      0 -> 1
-      _ -> n*fact(n-1)
+      _ -> fact(rem(n, 10)) + sum_of_dig_fact(div(n, 10))
     end
   end
 
-end #module
+  def fact(n) do
+    case n do
+      0 -> 1
+      _ -> n * fact(n - 1)
+    end
+  end
+end
+
+# module

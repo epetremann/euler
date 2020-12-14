@@ -1,4 +1,4 @@
-defmodule Problem58 do
+defmodule Euler.Problem58 do
   @moduledoc """
   https://projecteuler.net/problem=58
 
@@ -26,73 +26,100 @@ defmodule Problem58 do
   """
 
   def main() do
-    time_start = Time.utc_now    # start chrono
+    # start chrono
+    time_start = Time.utc_now()
 
     result = solve(99999)
 
-    time_finish = Time.utc_now   # stop chrono
+    # stop chrono
+    time_finish = Time.utc_now()
     time_delta = Time.diff(time_finish, time_start, :microsecond)
     delta_sec = div(time_delta, 1_000_000)
     delta_msec = div(time_delta, 1_000)
     delta_micsec = rem(time_delta, 1_000)
 
-    IO.puts "Result         : #{IO.inspect result}"
-    IO.puts "Execution time : #{delta_sec} s,  #{delta_msec} ms #{delta_micsec} micros"
-  end #main
+    IO.puts("Result         : #{IO.inspect(result)}")
+    IO.puts("Execution time : #{delta_sec} s,  #{delta_msec} ms #{delta_micsec} micros")
+  end
+
+  # main
 
   def solve(n) do
     n_diags = number_spiral_diagonals(n)
-    n_diags_prem = 
-      n_diags 
+
+    n_diags_prem =
+      n_diags
       |> Enum.filter(&is_prime?/1)
+
     prime_ratio = length(n_diags_prem) / length(n_diags) * 100
-    IO.inspect{n, prime_ratio}
+    IO.inspect({n, prime_ratio})
+
     cond do
       prime_ratio < 10 -> n
-      true -> solve(n+2)
+      true -> solve(n + 2)
     end
-
   end
 
-  def number_spiral_diagonals(n) when rem(n,2) == 1 do
-    number_spiral_diagonals(n,[1],2,1,0) 
+  def number_spiral_diagonals(n) when rem(n, 2) == 1 do
+    number_spiral_diagonals(n, [1], 2, 1, 0)
   end
 
-  def number_spiral_diagonals(n,[h | tail],step, count_diag, count_prime) do
-    ratio = count_prime/count_diag * 100.0
-    IO.inspect{step-1,ratio}
+  def number_spiral_diagonals(n, [h | tail], step, count_diag, count_prime) do
+    ratio = count_prime / count_diag * 100.0
+    IO.inspect({step - 1, ratio})
+
     cond do
-      ratio > 9 and ratio < 10.0 -> step-1
-      step+1 > n -> [ h | tail]
-      true -> 
-        np_primes = 
-          [h + step*4, h+step*3, h+step*2, h+step]
+      ratio > 9 and ratio < 10.0 ->
+        step - 1
+
+      step + 1 > n ->
+        [h | tail]
+
+      true ->
+        np_primes =
+          [h + step * 4, h + step * 3, h + step * 2, h + step]
           |> Enum.filter(&is_prime?/1)
-          |> Enum.count
-        number_spiral_diagonals(n, 
-          [ h + step*4, h+step*3, h+step*2, h+step, h | tail ], 
-          step+2, 
-          count_diag+4, 
-          count_prime + np_primes )
+          |> Enum.count()
+
+        number_spiral_diagonals(
+          n,
+          [h + step * 4, h + step * 3, h + step * 2, h + step, h | tail],
+          step + 2,
+          count_diag + 4,
+          count_prime + np_primes
+        )
     end
   end
-  
+
   def is_prime?(n) do
     cond do
-      n <= 1 -> false
-      n in [2,3,5,7,11,13] -> true
-      rem(n,2) == 0 -> false
-      true -> 
-        max_factor = n |> :math.sqrt |> ceil
+      n <= 1 ->
+        false
+
+      n in [2, 3, 5, 7, 11, 13] ->
+        true
+
+      rem(n, 2) == 0 ->
+        false
+
+      true ->
+        max_factor = n |> :math.sqrt() |> ceil
         do_is_prime?(n, 3, max_factor)
     end
   end
+
   def do_is_prime?(n, factor, max_factor) do
     cond do
-      factor > max_factor -> 
+      factor > max_factor ->
         true
-      rem(n, factor) == 0 -> false
-      true -> do_is_prime?(n, factor+2, max_factor)
+
+      rem(n, factor) == 0 ->
+        false
+
+      true ->
+        do_is_prime?(n, factor + 2, max_factor)
     end
   end
-end #module
+end
+
+# module

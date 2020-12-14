@@ -1,4 +1,4 @@
-defmodule Problem63 do
+defmodule Euler.Problem63 do
   @moduledoc """
   https://projecteuler.net/problem=63
 
@@ -14,36 +14,43 @@ defmodule Problem63 do
   """
 
   def main() do
-    time_start = Time.utc_now    # start chrono
+    # start chrono
+    time_start = Time.utc_now()
 
     result = powerful_digit_counts(100)
 
-    time_finish = Time.utc_now   # stop chrono
+    # stop chrono
+    time_finish = Time.utc_now()
 
-    IO.puts "Result         : #{result}"
-    IO.puts "Execution time : #{Time.diff(time_finish,time_start)}s"
-  end #main
+    IO.puts("Result         : #{result}")
+    IO.puts("Execution time : #{Time.diff(time_finish, time_start)}s")
+  end
+
+  # main
 
   def powerful_digit_counts(n) do
-    powerful_digit_counts(n,1,1,[]) |> length
+    powerful_digit_counts(n, 1, 1, []) |> length
   end
-  def powerful_digit_counts(n,p,i,list) do
-      cond do
-        p > n -> list
-        i > 9 -> powerful_digit_counts(n,p+1,1,list)
-        power_dig_count(i,p) == p -> powerful_digit_counts(n,p,i+1,[{i,p} | list])
-        true -> powerful_digit_counts(n,p,i+1, list)
+
+  def powerful_digit_counts(n, p, i, list) do
+    cond do
+      p > n -> list
+      i > 9 -> powerful_digit_counts(n, p + 1, 1, list)
+      power_dig_count(i, p) == p -> powerful_digit_counts(n, p, i + 1, [{i, p} | list])
+      true -> powerful_digit_counts(n, p, i + 1, list)
     end
   end
 
-  def power_dig_count(n,p) do
-    power(n,p) |> to_charlist |> length
+  def power_dig_count(n, p) do
+    power(n, p) |> to_charlist |> length
   end
-  def power(n,p) do
+
+  def power(n, p) do
     case p do
       0 -> 1
-      _ -> n*power(n,p-1)
+      _ -> n * power(n, p - 1)
     end
   end
-  
-end #module
+end
+
+# module

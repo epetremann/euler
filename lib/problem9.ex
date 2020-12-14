@@ -1,4 +1,4 @@
-defmodule Problem9 do
+defmodule Euler.Problem9 do
   @moduledoc """
   https://projecteuler.net/problem=9
 
@@ -14,7 +14,7 @@ defmodule Problem9 do
   There exists exactly one Pythagorean triplet for which a + b + c = 1000.
   Find the product abc.
 
-  
+
   """
 
   @doc """
@@ -23,23 +23,23 @@ defmodule Problem9 do
   """
 
   def pythagorian_triplet(n \\ 1000) do
-    pythagorian_triplet(div(n,2)-1, 1, n) 
+    pythagorian_triplet(div(n, 2) - 1, 1, n)
   end
+
   defp pythagorian_triplet(a, _b, _n) when a <= 0 do
     nil
   end
+
   defp pythagorian_triplet(a, b, n) when b >= a do
-    pythagorian_triplet(a-1, 1, n) 
+    pythagorian_triplet(a - 1, 1, n)
   end
 
-  defp pythagorian_triplet(a, b, n) when (a*a + b*b == (n-a-b)*(n-a-b)) do
-    c=1000-a-b
-    {a*b*c, a,b,c}
+  defp pythagorian_triplet(a, b, n) when a * a + b * b == (n - a - b) * (n - a - b) do
+    c = 1000 - a - b
+    {a * b * c, a, b, c}
   end
+
   defp pythagorian_triplet(a, b, n) do
-    pythagorian_triplet(a, b+1, n) 
+    pythagorian_triplet(a, b + 1, n)
   end
-
-
-  
 end

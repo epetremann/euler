@@ -1,9 +1,9 @@
-defmodule Problem42 do
+defmodule Euler.Problem42 do
   @moduledoc """
   https://projecteuler.net/problem=42
 
   Coded triangle numbers
-  
+
 
   The nth term of the sequence of triangle numbers is given by, tn = ½n(n+1);
   so the first ten triangle numbers are:
@@ -26,45 +26,51 @@ defmodule Problem42 do
   The purpose of the `main` function is to measure the execution time of a function.
   """
   def main() do
-    time_start = Time.utc_now    # start chrono
+    # start chrono
+    time_start = Time.utc_now()
 
     result = coded_triangel_numbers()
 
-    time_finish = Time.utc_now   # stop chrono
+    # stop chrono
+    time_finish = Time.utc_now()
     time_delta = Time.diff(time_finish, time_start, :microsecond)
     delta_sec = div(time_delta, 1_000_000)
     delta_msec = div(time_delta, 1_000)
     delta_micsec = rem(time_delta, 1_000)
 
-    IO.puts "Result         : #{IO.inspect result}"
-    IO.puts "Execution time : #{delta_sec}sec,  #{delta_msec}msec #{delta_micsec} microsec"
+    IO.puts("Result         : #{IO.inspect(result)}")
+    IO.puts("Execution time : #{delta_sec}sec,  #{delta_msec}msec #{delta_micsec} microsec")
   end
 
   @doc """
   """
   def coded_triangel_numbers() do
-    {:ok,s} = File.read("data/p042_words.txt")
-    s 
+    {:ok, s} = File.read("data/p042_words.txt")
+
+    s
     |> String.split(~w("," "))
     |> Enum.filter(&is_triangle_word?/1)
-    |> Enum.count
-
+    |> Enum.count()
   end
+
   def word_value(s) do
-    for c <- s |> String.upcase |> String.to_charlist do
+    for c <- s |> String.upcase() |> String.to_charlist() do
       c - ?@
     end
-    |> Enum.sum
+    |> Enum.sum()
   end
+
   def is_triangle_word?(s) do
-    do_is_triangle?(word_value(s),1)
+    do_is_triangle?(word_value(s), 1)
   end
-  def do_is_triangle?(n,p) do
-    t = div(p*(p+1),2)
+
+  def do_is_triangle?(n, p) do
+    t = div(p * (p + 1), 2)
+
     cond do
       t > n -> false
       t == n -> true
-      true -> do_is_triangle?(n,p+1)
+      true -> do_is_triangle?(n, p + 1)
     end
   end
 end

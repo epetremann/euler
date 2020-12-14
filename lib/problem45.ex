@@ -1,4 +1,4 @@
-defmodule Problem45 do
+defmodule Euler.Problem45 do
   @moduledoc """
   https://projecteuler.net/problem=45
 
@@ -20,55 +20,61 @@ defmodule Problem45 do
   The purpose of the `main` function is to measure the execution time of a function.
   """
   def main() do
-    time_start = Time.utc_now    # start chrono
+    # start chrono
+    time_start = Time.utc_now()
 
     result = triangle_penta_hex(1_000_000)
 
-    time_finish = Time.utc_now   # stop chrono
+    # stop chrono
+    time_finish = Time.utc_now()
     time_delta = Time.diff(time_finish, time_start, :microsecond)
     delta_sec = div(time_delta, 1_000_000)
     delta_msec = div(time_delta, 1_000)
     delta_micsec = rem(time_delta, 1_000)
 
-    IO.puts "Result         : #{IO.inspect result}"
-    IO.puts "Execution time : #{delta_sec}sec,  #{delta_msec}msec #{delta_micsec} microsec"
+    IO.puts("Result         : #{IO.inspect(result)}")
+    IO.puts("Execution time : #{delta_sec}sec,  #{delta_msec}msec #{delta_micsec} microsec")
   end
 
   @doc """
   """
   def triangle_penta_hex(nmax) do
-    1..nmax 
+    1..nmax
     |> Stream.map(&triangle/1)
     |> Stream.filter(&is_pent_hexa?/1)
-    |> Enum.to_list
-
+    |> Enum.to_list()
   end
 
-  def triangle(n), do: div(n*(n+1),2)
-  def pentagon(n), do: div(n*(3*n-1),2)
-  def hexagon(n), do: n*(2*n-1)
-  def is_pentagon?(n), do: do_is_pentagon?(n,1) 
-  def is_hexagon?(n), do: do_is_hexagon?(n,1) 
+  def triangle(n), do: div(n * (n + 1), 2)
+  def pentagon(n), do: div(n * (3 * n - 1), 2)
+  def hexagon(n), do: n * (2 * n - 1)
+  def is_pentagon?(n), do: do_is_pentagon?(n, 1)
+  def is_hexagon?(n), do: do_is_hexagon?(n, 1)
   def is_pent_hexa?(n), do: is_pentagon?(n) && is_hexagon?(n)
 
-  def do_is_pentagon?(n,p) do
+  def do_is_pentagon?(n, p) do
     penta = pentagon(p)
+
     cond do
       penta > n -> false
       penta == n -> true
-      true -> do_is_pentagon?(n,p+1)
+      true -> do_is_pentagon?(n, p + 1)
     end
   end
 
-  def do_is_hexagon?(n,p) do
+  def do_is_hexagon?(n, p) do
     hexa = hexagon(p)
+
     cond do
-      hexa > n -> false
-      hexa == n -> 
+      hexa > n ->
+        false
+
+      hexa == n ->
         IO.inspect(n)
         true
-      true -> 
-        do_is_hexagon?(n,p+1)
+
+      true ->
+        do_is_hexagon?(n, p + 1)
     end
   end
 end

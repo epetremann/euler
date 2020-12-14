@@ -1,4 +1,4 @@
-defmodule Problem55 do
+defmodule Euler.Problem55 do
   @moduledoc """
   https://projecteuler.net/problem=55
 
@@ -36,47 +36,52 @@ defmodule Problem55 do
   function.
   """
   def main(n \\ 1000) do
-    time_start = Time.utc_now    # start chrono
+    # start chrono
+    time_start = Time.utc_now()
 
     result = solve(n)
 
-    time_finish = Time.utc_now   # stop chrono
+    # stop chrono
+    time_finish = Time.utc_now()
     time_delta = Time.diff(time_finish, time_start, :microsecond)
     delta_sec = div(time_delta, 1_000_000)
     delta_msec = div(time_delta, 1_000)
     delta_micsec = rem(time_delta, 1_000)
 
-    IO.puts "Result         : "
-    IO.inspect result
-    IO.puts "Execution time : #{delta_sec}sec,  #{delta_msec}msec #{delta_micsec} microsec"
+    IO.puts("Result         : ")
+    IO.inspect(result)
+    IO.puts("Execution time : #{delta_sec}sec,  #{delta_msec}msec #{delta_micsec} microsec")
   end
 
-  def solve(n\\ 9_999) do
+  def solve(n \\ 9_999) do
     for i <- 10..n do
       if not is_palindrom_gen?(i, 50) do
         i
       end
     end
-    |> Enum.filter(&(&1))
-    |> Enum.count
+    |> Enum.filter(& &1)
+    |> Enum.count()
   end
 
-  def is_palindrom_gen?(_n,0), do: false
-  def is_palindrom_gen?(n,p) do
-    new_n = n+reverse(n)
+  def is_palindrom_gen?(_n, 0), do: false
+
+  def is_palindrom_gen?(n, p) do
+    new_n = n + reverse(n)
+
     if is_palindrom?(new_n) do
       true
     else
-      is_palindrom_gen?(new_n, p-1)
+      is_palindrom_gen?(new_n, p - 1)
     end
   end
 
   def reverse(x) when is_integer(x) do
-    x 
-    |> Integer.to_string
-    |> String.reverse
-    |> String.to_integer
+    x
+    |> Integer.to_string()
+    |> String.reverse()
+    |> String.to_integer()
   end
+
   def is_palindrom?(n) do
     n_string = Integer.to_string(n)
     n_string == String.reverse(n_string)

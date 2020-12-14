@@ -1,7 +1,8 @@
 defmodule Card do
   defstruct value: nil, suite: nil
 end
-defmodule Problem54 do
+
+defmodule Euler.Problem54 do
   @moduledoc """
   https://projecteuler.net/problem=54
 
@@ -83,22 +84,22 @@ defmodule Problem54 do
   end
 
   @doc """
-  
+
   """
   def solve() do
     # Open the file data/p054_poker.txt and read content
     {:ok, data} = File.read("data/p054_poker.txt")
+
     data
     # remove trailing carriage return
-    |> String.trim
+    |> String.trim()
     # separate the different games (one game is one line or 10 cards)
     |> String.split("\n")
     # for each game, calculate the winner (player1/player2)
     |> Enum.map(&get_winner/1)
     |> Enum.filter(fn x -> x == :player1 end)
-    |> Enum.count
+    |> Enum.count()
   end
-
 
   @doc """
   calculate the winner of one game
@@ -108,19 +109,25 @@ defmodule Problem54 do
   """
   def get_winner(string_hands) do
     # split the hand in ten cards
-    [hand1, hand2] = 
+    [hand1, hand2] =
       string_hands
       |> String.split(" ")
-    # give five cards to player1 and five cards to player2
+      # give five cards to player1 and five cards to player2
       |> Enum.chunk_every(5)
-    # convert each string of two chars in a card(value, suite)
+      # convert each string of two chars in a card(value, suite)
       |> Enum.map(&list_to_hand/1)
-      {hand1, hand2}
-      points1 = royal_flush(hand1) 
-      points2 = royal_flush(hand2)
+
+    {hand1, hand2}
+    points1 = royal_flush(hand1)
+    points2 = royal_flush(hand2)
+
     cond do
-      points1 > points2 -> :player1
-      points2 > points1 -> :player2
+      points1 > points2 ->
+        :player1
+
+      points2 > points1 ->
+        :player2
+
       points1 == points2 ->
         higher_hand(hand1, hand2)
     end
@@ -139,7 +146,6 @@ defmodule Problem54 do
       straight_flush(hand)
     end
   end
-  
 
   @doc """
   Cheks if a hand is a straight flush:
@@ -149,26 +155,27 @@ defmodule Problem54 do
   """
   def straight_flush(hand) do
     h_value = hand_values(hand)
-    if is_same_suite?(hand) && 
-      ( h_value
-      |> list_substr_first
-      ) == [0, 1, 2, 3, 4] do
-        900 + List.last(h_value)
+
+    if is_same_suite?(hand) &&
+         h_value
+         |> list_substr_first == [0, 1, 2, 3, 4] do
+      900 + List.last(h_value)
     else
       four_of_a_kind(hand)
     end
   end
-  
 
   @doc """
   Four cards of the same value
   """
   def four_of_a_kind(hand) do
     h_values = hand_values(hand)
+
     largest_group =
-    h_values
-    |> hand_groups 
-    |> List.first
+      h_values
+      |> hand_groups
+      |> List.first()
+
     if length(largest_group) == 4 do
       800 + List.first(largest_group)
     else
@@ -176,15 +183,16 @@ defmodule Problem54 do
     end
   end
 
-
   def full_house(hand) do
     h_values = hand_values(hand)
+
     groups =
-    h_values
-    |> hand_groups
+      h_values
+      |> hand_groups
+
     if length(groups) == 2 do
-      [ three, pair] = groups
-      700 + List.first(three)*16 + List.first(pair)
+      [three, pair] = groups
+      700 + List.first(three) * 16 + List.first(pair)
     else
       flush(hand)
     end
@@ -192,7 +200,7 @@ defmodule Problem54 do
 
   def flush(hand) do
     if is_same_suite?(hand) do
-      600 
+      600
     else
       straight(hand)
     end
@@ -200,6 +208,7 @@ defmodule Problem54 do
 
   def straight(hand) do
     h_values = hand_values(hand)
+
     if h_values |> list_substr_first == [0, 1, 2, 3, 4] do
       500 + List.last(h_values)
     else
@@ -209,12 +218,14 @@ defmodule Problem54 do
 
   def three_of_a_kind(hand) do
     h_values = hand_values(hand)
+
     largest_groups =
       h_values
-      |> hand_groups 
-      |> List.first
+      |> hand_groups
+      |> List.first()
+
     if length(largest_groups) == 3 do
-      400+List.first(largest_groups)
+      400 + List.first(largest_groups)
     else
       two_pairs(hand)
     end
@@ -222,9 +233,11 @@ defmodule Problem54 do
 
   def two_pairs(hand) do
     h_values = hand_values(hand)
-    [a,b | _tail] =
+
+    [a, b | _tail] =
       h_values
       |> hand_groups
+
     if Enum.count(a) == 2 && Enum.count(b) == 2 do
       300 + List.first(a) + List.first(b)
     else
@@ -234,9 +247,11 @@ defmodule Problem54 do
 
   def pair(hand) do
     h_values = hand_values(hand)
+
     [a | _tail] =
       h_values
       |> hand_groups
+
     if length(a) == 2 do
       200 + List.first(a)
     else
@@ -244,8 +259,6 @@ defmodule Problem54 do
     end
   end
 
-
-  
   @doc """
     group cards by same value
   """
@@ -253,18 +266,18 @@ defmodule Problem54 do
     for v <- h_values do
       h_values |> Enum.filter(fn x -> x == v end)
     end
-    |> Enum.uniq
+    |> Enum.uniq()
     |> Enum.sort_by(fn x -> length(x) end, :desc)
   end
-
 
   @doc """
   """
   def list_substr_first([head | tail]) do
     do_list_substr_first(head, [head | tail])
   end
-  def do_list_substr_first(i,list) do
-    for x <- list, do: x-i
+
+  def do_list_substr_first(i, list) do
+    for x <- list, do: x - i
   end
 
   @doc """
@@ -279,22 +292,22 @@ defmodule Problem54 do
 
   """
   def get_card(s) do
-    [ name_value, name_suite ] = String.graphemes(s)
+    [name_value, name_suite] = String.graphemes(s)
     suite = String.to_atom(name_suite)
     value = get_card_value(name_value)
-    %Card{ value: value, suite: suite}
+    %Card{value: value, suite: suite}
   end
-
 
   @doc """
     Get the value of a card from a single char string:
      "2" -> 0, "3" -> ..... -> "A" -> 0xC
   """
   def get_card_value(name_value) do
-    Enum.find_index(~w(2 3 4 5 6 7 8 9 T J Q K A),
-      fn x-> x == name_value end)
+    Enum.find_index(
+      ~w(2 3 4 5 6 7 8 9 T J Q K A),
+      fn x -> x == name_value end
+    )
   end
-
 
   @doc """
     Convert a list of 2-character strings in a hand.
@@ -306,7 +319,6 @@ defmodule Problem54 do
     |> hand_sort
   end
 
-
   @doc """
   Sorts a hand of card by ascending card value
   """
@@ -314,7 +326,6 @@ defmodule Problem54 do
     hand
     |> Enum.sort_by(fn %Card{value: value, suite: _suite} -> value end)
   end
-
 
   @doc """
   calculate he cumulated value of sorted hand
@@ -326,10 +337,10 @@ defmodule Problem54 do
   highest card, etc...
   """
   def hand_cumulated_value([]), do: 0
+
   def hand_cumulated_value([%Card{value: value, suite: _suite} | tail]) do
     value + 16 * hand_cumulated_value(tail)
   end
-
 
   @doc """
   compare tow hands to determine which hand have the highest card.
@@ -337,15 +348,15 @@ defmodule Problem54 do
 
   """
   def higher_hand(hand1, hand2) do
-    hand_value1 = hand_cumulated_value(hand1) 
-    hand_value2 = hand_cumulated_value(hand2) 
+    hand_value1 = hand_cumulated_value(hand1)
+    hand_value2 = hand_cumulated_value(hand2)
+
     cond do
-      hand_value1 > hand_value2  -> :player1
+      hand_value1 > hand_value2 -> :player1
       hand_value1 == hand_value2 -> nil
       true -> :player2
     end
   end
-
 
   @doc """
   Check if all cards in a same hand belong to the same suite.
@@ -354,16 +365,16 @@ defmodule Problem54 do
     for %Card{value: _value, suite: suite} <- hand do
       suite
     end
-    |> Enum.uniq
-    |> Enum.count == 1
+    |> Enum.uniq()
+    |> Enum.count() == 1
   end
-
 
   @doc """
   Generate a list with the values of the cards.
   We can ignore the suite.
   """
-  def hand_values([]), do: [] 
+  def hand_values([]), do: []
+
   def hand_values([%Card{value: value, suite: _suite} | tail]) do
     [value | hand_values(tail)]
   end

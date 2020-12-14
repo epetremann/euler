@@ -1,4 +1,4 @@
-defmodule Problem43 do
+defmodule Euler.Problem43 do
   @moduledoc """
   https://projecteuler.net/problem=43
 
@@ -27,25 +27,27 @@ defmodule Problem43 do
   The purpose of the `main` function is to measure the execution time of a function.
   """
   def main() do
-    time_start = Time.utc_now    # start chrono
+    # start chrono
+    time_start = Time.utc_now()
 
     result = sub_string_div()
 
-    time_finish = Time.utc_now   # stop chrono
+    # stop chrono
+    time_finish = Time.utc_now()
     time_delta = Time.diff(time_finish, time_start, :microsecond)
     delta_sec = div(time_delta, 1_000_000)
     delta_msec = div(time_delta, 1_000)
     delta_micsec = rem(time_delta, 1_000)
 
-    IO.puts "Result         : "
-    IO.inspect result
-    IO.puts "Execution time : #{delta_sec}sec,  #{delta_msec}msec #{delta_micsec} microsec"
+    IO.puts("Result         : ")
+    IO.inspect(result)
+    IO.puts("Execution time : #{delta_sec}sec,  #{delta_msec}msec #{delta_micsec} microsec")
   end
 
   @doc """
   """
   def sub_string_div() do
-    for d1 <- ~w(0 1 2 3 4 5 6 7 8 9)  do
+    for d1 <- ~w(0 1 2 3 4 5 6 7 8 9) do
       for d2 <- ~w(0 1 2 3 4 5 6 7 8 9) -- [d1] do
         for d3 <- ~w(0 1 2 3 4 5 6 7 8 9) -- [d1, d2] do
           for d4 <- ~w(0 1 2 3 4 5 6 7 8 9) -- [d1, d2, d3] do
@@ -56,10 +58,11 @@ defmodule Problem43 do
                     for d9 <- ~w(0 1 2 3 4 5 6 7 8 9) -- [d1, d2, d3, d4, d5, d6, d7, d8] do
                       for d10 <- ~w(0 1 2 3 4 5 6 7 8 9) -- [d1, d2, d3, d4, d5, d6, d7, d8, d9] do
                         l = [d1, d2, d3, d4, d5, d6, d7, d8, d9, d10]
+
                         if is_sub_divisible?(l) do
-                            l
-                            |> Enum.join
-                            |> String.to_integer
+                          l
+                          |> Enum.join()
+                          |> String.to_integer()
                         end
                       end
                     end
@@ -70,29 +73,31 @@ defmodule Problem43 do
           end
         end
       end
-    end 
-    |> List.flatten
-    |> Enum.uniq
-    |> Enum.sort
+    end
+    |> List.flatten()
+    |> Enum.uniq()
+    |> Enum.sort()
     |> Enum.filter(fn x -> x != nil end)
-    |> IO.inspect
-    |> Enum.sum
+    |> IO.inspect()
+    |> Enum.sum()
   end
+
   def is_sub_divisible?([_d1, d2, d3, d4, d5, d6, d7, d8, d9, d10]) do
-    do_is_divisible?([d2,d3,d4],2) &&
-    do_is_divisible?([d3,d4,d5],3) &&
-    do_is_divisible?([d4,d5,d6],5) &&
-    do_is_divisible?([d5,d6,d7],7) &&
-    do_is_divisible?([d6,d7,d8],11) &&
-    do_is_divisible?([d7,d8,d9],13) &&
-    do_is_divisible?([d8,d9,d10],17)
+    do_is_divisible?([d2, d3, d4], 2) &&
+      do_is_divisible?([d3, d4, d5], 3) &&
+      do_is_divisible?([d4, d5, d6], 5) &&
+      do_is_divisible?([d5, d6, d7], 7) &&
+      do_is_divisible?([d6, d7, d8], 11) &&
+      do_is_divisible?([d7, d8, d9], 13) &&
+      do_is_divisible?([d8, d9, d10], 17)
   end
-  def do_is_divisible?(list,p) do
-    n = 
+
+  def do_is_divisible?(list, p) do
+    n =
       list
-      |> Enum.join("") 
-      |> String.to_integer
-    rem(n,p) == 0
+      |> Enum.join("")
+      |> String.to_integer()
+
+    rem(n, p) == 0
   end
 end
-

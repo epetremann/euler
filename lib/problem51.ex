@@ -1,4 +1,4 @@
-defmodule Problem51 do
+defmodule Euler.Problem51 do
   @moduledoc """
   https://projecteuler.net/problem=51
 
@@ -26,7 +26,7 @@ defmodule Problem51 do
     # start chrono
     time_start = Time.utc_now()
 
-    result = solve(1001,7)
+    result = solve(1001, 7)
 
     # stop chrono
     time_finish = Time.utc_now()

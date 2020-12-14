@@ -1,4 +1,4 @@
-defmodule Problem1 do
+defmodule Euler.Problem1 do
   @moduledoc """
   https://projecteuler.net/problem=1
 
@@ -12,35 +12,37 @@ defmodule Problem1 do
   Find the sum of all the multiples of 3 or 5 below 1000.
   """
 
-  
   def main() do
-    time_start = Time.utc_now    # start chrono
+    # start chrono
+    time_start = Time.utc_now()
 
     result = sum_of_mult_of_3_5(1_000)
 
-    time_finish = Time.utc_now   # stop chrono
+    # stop chrono
+    time_finish = Time.utc_now()
     time_delta = Time.diff(time_finish, time_start, :microsecond)
     delta_sec = div(time_delta, 1_000_000)
     delta_msec = div(time_delta, 1_000)
     delta_micsec = rem(time_delta, 1_000)
 
-    IO.puts "Result         : #{result}"
-    IO.puts "Execution time : #{delta_sec}sec,  #{delta_msec}mec #{delta_micsec} microsec"
-  end #main
+    IO.puts("Result         : #{result}")
+    IO.puts("Execution time : #{delta_sec}sec,  #{delta_msec}mec #{delta_micsec} microsec")
+  end
+
+  # main
 
   @doc """
   The sum of integers 1 to n1 is given by the formula n*(n-1)/2
   """
 
-  def sum_of_mult(n,p) do
-    n1 = div(n-1,p)
-    div(n1*(n1+1),2) * p
+  def sum_of_mult(n, p) do
+    n1 = div(n - 1, p)
+    div(n1 * (n1 + 1), 2) * p
   end
 
   def sum_of_mult_of_3_5(n) do
-    sum_of_mult(n,3) +
-    sum_of_mult(n,5) -
-    sum_of_mult(n,15)
+    sum_of_mult(n, 3) +
+      sum_of_mult(n, 5) -
+      sum_of_mult(n, 15)
   end
-
 end

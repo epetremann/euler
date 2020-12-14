@@ -1,4 +1,4 @@
-defmodule Problem92 do
+defmodule Euler.Problem92 do
   @moduledoc """
   https://projecteuler.net/problem=92
 
@@ -24,18 +24,20 @@ defmodule Problem92 do
   The purpose of the `main` function is to measure the execution time of a function.
   """
   def main(n \\ 9_999_999) do
-    time_start = Time.utc_now    # start chrono
+    # start chrono
+    time_start = Time.utc_now()
 
     result = solve(n)
 
-    time_finish = Time.utc_now   # stop chrono
+    # stop chrono
+    time_finish = Time.utc_now()
     time_delta = Time.diff(time_finish, time_start, :microsecond)
     delta_sec = div(time_delta, 1_000_000)
     delta_msec = div(time_delta, 1_000)
     delta_micsec = rem(time_delta, 1_000)
 
-    IO.puts "Result         : #{IO.inspect result}"
-    IO.puts "Execution time : #{delta_sec}sec,  #{delta_msec}msec #{delta_micsec} microsec"
+    IO.puts("Result         : #{IO.inspect(result)}")
+    IO.puts("Execution time : #{delta_sec}sec,  #{delta_msec}msec #{delta_micsec} microsec")
   end
 
   @doc """
@@ -43,25 +45,29 @@ defmodule Problem92 do
   def solve(n \\ 9_999_999) do
     do_solve(n, 0)
   end
-  def do_solve(1,counter), do: counter
-  def do_solve(n,counter) do
+
+  def do_solve(1, counter), do: counter
+
+  def do_solve(n, counter) do
     if number_chain(n) == 89 do
-      do_solve(n-1, counter+1)
+      do_solve(n - 1, counter + 1)
     else
-      do_solve(n-1, counter)
+      do_solve(n - 1, counter)
     end
   end
 
   def number_chain(n) do
     case square_dig = square_digits(n) do
-      89 ->  89
+      89 -> 89
       1 -> 1
       _ -> number_chain(square_dig)
     end
   end
+
   def square_digits(0), do: 0
+
   def square_digits(n) do
-    digit = rem(n,10) 
-    digit * digit + square_digits(div(n,10))
+    digit = rem(n, 10)
+    digit * digit + square_digits(div(n, 10))
   end
 end

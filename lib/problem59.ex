@@ -1,11 +1,11 @@
-defmodule Problem59 do
+defmodule Euler.Problem59 do
   @moduledoc """
   https://projecteuler.net/problem=59
 
 
   XOR description
 
-  
+
 
   Each character on a computer is assigned a unique code and the preferred standard is
   ASCII (American Standard Code for Information Interchange).
@@ -38,51 +38,61 @@ defmodule Problem59 do
   The purpose of the `main` function is to measure the execution time of a function.
   """
   def main() do
-    time_start = Time.utc_now    # start chrono
+    # start chrono
+    time_start = Time.utc_now()
 
     result = solve()
 
-    time_finish = Time.utc_now   # stop chrono
+    # stop chrono
+    time_finish = Time.utc_now()
     time_delta = Time.diff(time_finish, time_start, :microsecond)
     delta_sec = div(time_delta, 1_000_000)
     delta_msec = div(time_delta, 1_000)
     delta_micsec = rem(time_delta, 1_000)
 
-    IO.puts "Result         : #{IO.inspect result}"
-    IO.puts "Execution time : #{delta_sec} s,  #{delta_msec} ms #{delta_micsec} micros"
+    IO.puts("Result         : #{IO.inspect(result)}")
+    IO.puts("Execution time : #{delta_sec} s,  #{delta_msec} ms #{delta_micsec} micros")
   end
 
   @doc """
   """
   def solve() do
-    {:ok, text}  = File.read("data/p059_cipher.txt") 
-    chars = 
-      text 
+    {:ok, text} = File.read("data/p059_cipher.txt")
+
+    chars =
+      text
       |> String.split(",")
       |> Enum.map(&String.to_integer/1)
 
-    
-    {_ , ascii_sum, _} =
+    {_, ascii_sum, _} =
       for i <- ?a..?z, j <- ?a..?z, k <- ?a..?z do
-        decoded = 
+        decoded =
           chars
-          |> xor_charlist([i,j,k])
-          |> List.to_string
-        if String.printable?(decoded) && ( decoded |> String.contains?("Euler")) do
-          IO.inspect {[i,j,k],decoded |> String.to_charlist |> Enum.sum, decoded |> String.split_at(64) |> elem(0) }
-          {[i,j,k],decoded |> String.to_charlist |> Enum.sum, decoded |> String.split_at(64) |> elem(0) }
+          |> xor_charlist([i, j, k])
+          |> List.to_string()
+
+        if String.printable?(decoded) && decoded |> String.contains?("Euler") do
+          IO.inspect(
+            {[i, j, k], decoded |> String.to_charlist() |> Enum.sum(),
+             decoded |> String.split_at(64) |> elem(0)}
+          )
+
+          {[i, j, k], decoded |> String.to_charlist() |> Enum.sum(),
+           decoded |> String.split_at(64) |> elem(0)}
         end
       end
-      |> Enum.filter(&(&1))
-      |> List.first
+      |> Enum.filter(& &1)
+      |> List.first()
+
     ascii_sum
   end
-  def xor_charlist(char_data,key) do
+
+  def xor_charlist(char_data, key) do
     len = Enum.count(char_data)
     long_key = Stream.cycle(key) |> Enum.take(len)
 
-    for {value,key} <- Enum.zip(char_data,long_key) do
-      Bitwise.bxor(value,key) 
+    for {value, key} <- Enum.zip(char_data, long_key) do
+      Bitwise.bxor(value, key)
     end
   end
 end

@@ -1,4 +1,4 @@
-defmodule Problem97 do
+defmodule Euler.Problem97 do
   @moduledoc """
   https://projecteuler.net/problem=97
 
@@ -19,26 +19,29 @@ defmodule Problem97 do
   The purpose of the `main` function is to measure the execution time of a function.
   """
   def main() do
-    time_start = Time.utc_now    # start chrono
+    # start chrono
+    time_start = Time.utc_now()
 
     result = solve()
 
-    time_finish = Time.utc_now   # stop chrono
+    # stop chrono
+    time_finish = Time.utc_now()
     time_delta = Time.diff(time_finish, time_start, :microsecond)
     delta_sec = div(time_delta, 1_000_000)
     delta_msec = div(time_delta, 1_000)
     delta_micsec = rem(time_delta, 1_000)
 
-    IO.puts "Result         : #{IO.inspect result}"
-    IO.puts "Execution time : #{delta_sec}sec,  #{delta_msec}msec #{delta_micsec} microsec"
+    IO.puts("Result         : #{IO.inspect(result)}")
+    IO.puts("Execution time : #{delta_sec}sec,  #{delta_msec}msec #{delta_micsec} microsec")
   end
 
   @doc """
   """
-  def pow(_n,0), do: 1
-  def pow(n,p) when is_integer(p) and p > 0, do: n*pow(n,p-1)
-  def powmod(_n,_m,0), do: 1
-  def powmod(n,m, p) when is_integer(p) and p > 0, do: n*powmod(n,m, p-1) |> rem(m)
+  def pow(_n, 0), do: 1
+  def pow(n, p) when is_integer(p) and p > 0, do: n * pow(n, p - 1)
+  def powmod(_n, _m, 0), do: 1
+  def powmod(n, m, p) when is_integer(p) and p > 0, do: (n * powmod(n, m, p - 1)) |> rem(m)
+
   def solve() do
     nil
   end

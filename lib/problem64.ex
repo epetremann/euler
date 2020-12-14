@@ -1,4 +1,4 @@
-defmodule Problem64 do
+defmodule Euler.Problem64 do
   @moduledoc """
   https://projecteuler.net/problem=64
 
@@ -23,9 +23,7 @@ defmodule Problem64 do
     IO.puts("Result         : #{IO.inspect(result)}")
     IO.puts("Execution time : #{delta_sec}sec,  #{delta_msec}msec #{delta_micsec} microsec")
   end
-
-  @doc """
-  """
-  def solve(nmax \\  10_000) do
+  def solve(nmax) do
+    nmax
   end
 end

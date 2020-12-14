@@ -1,4 +1,4 @@
-defmodule Problem28 do
+defmodule Euler.Problem28 do
   @moduledoc """
   https://projecteuler.net/problem=28
 
@@ -31,26 +31,38 @@ defmodule Problem28 do
   """
 
   def main() do
-    time_start = Time.utc_now    # start chrono
+    # start chrono
+    time_start = Time.utc_now()
 
     result = number_spiral_diagonals(1001)
 
-    time_finish = Time.utc_now   # stop chrono
+    # stop chrono
+    time_finish = Time.utc_now()
 
-    IO.puts "Result         : #{result}"
-    IO.puts "Execution time : #{Time.diff(time_finish,time_start)}s"
-  end #main
-
-  def number_spiral_diagonals(n) when rem(n,2) == 1 do
-    number_spiral_diagonals(n,[1],2) 
-    |> Enum.sum
+    IO.puts("Result         : #{result}")
+    IO.puts("Execution time : #{Time.diff(time_finish, time_start)}s")
   end
 
-  def number_spiral_diagonals(n,[h | tail],step) do
+  # main
+
+  def number_spiral_diagonals(n) when rem(n, 2) == 1 do
+    number_spiral_diagonals(n, [1], 2)
+    |> Enum.sum()
+  end
+
+  def number_spiral_diagonals(n, [h | tail], step) do
     cond do
-      step+1 > n -> [ h | tail]
-      true -> number_spiral_diagonals(n, [ h + step*4, h+step*3, h+step*2, h+step, h | tail ], step+2)
+      step + 1 > n ->
+        [h | tail]
+
+      true ->
+        number_spiral_diagonals(
+          n,
+          [h + step * 4, h + step * 3, h + step * 2, h + step, h | tail],
+          step + 2
+        )
     end
   end
-  
-end #module
+end
+
+# module

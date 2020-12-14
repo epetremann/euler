@@ -1,4 +1,4 @@
-defmodule Problem62 do
+defmodule Euler.Problem62 do
   @moduledoc """
   https://projecteuler.net/problem=62
 
@@ -38,34 +38,40 @@ defmodule Problem62 do
   end
 
   @doc """
-  
+
   """
   def solve(n1 \\ 100, n2 \\ 10_000), do: do_solve(n1, n2, %{})
-  def do_solve(n,n2, cubes) do
-    n_cube = n*n*n
+
+  def do_solve(n, n2, cubes) do
+    n_cube = n * n * n
     n_key = highest_perm(n_cube)
+
     cond do
-      n > n2 -> cubes
-      n <= n2 -> 
-        new_cubes = 
-        if Map.has_key?(cubes, n_key) do
-          cubes |> Map.update!(n_key, fn clist -> [n_cube | clist] end)
-        else
-          cubes |> Map.put(n_key, [n_cube])
-        end
+      n > n2 ->
+        cubes
+
+      n <= n2 ->
+        new_cubes =
+          if Map.has_key?(cubes, n_key) do
+            cubes |> Map.update!(n_key, fn clist -> [n_cube | clist] end)
+          else
+            cubes |> Map.put(n_key, [n_cube])
+          end
+
         n_permutations = new_cubes[n_key]
+
         if Enum.count(n_permutations) >= 5 do
-          n_permutations |> Enum.sort |> List.first
+          n_permutations |> Enum.sort() |> List.first()
         else
-          do_solve(n+1,n2, new_cubes)
+          do_solve(n + 1, n2, new_cubes)
         end
     end
   end
 
   def highest_perm(n) do
-    n 
-    |> Integer.digits
+    n
+    |> Integer.digits()
     |> Enum.sort(:desc)
-    |> Integer.undigits
+    |> Integer.undigits()
   end
 end

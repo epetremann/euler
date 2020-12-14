@@ -1,9 +1,9 @@
-defmodule Problem24 do
+defmodule Euler.Problem24 do
   @moduledoc """
   https://projecteuler.net/problem=24
 
   Lexicographic permutations
-  
+
   A permutation is an ordered arrangement of objects. For example, 3124 is one possible
   permutation of the digits 1, 2, 3 and 4.
   If all of the permutations are listed numerically or alphabetically, we call it
@@ -21,9 +21,10 @@ defmodule Problem24 do
 
   """
   def lexicographic_permutations(digits \\ '0123456789', position \\ 1_000_000) do
-    range = position-1
+    range = position - 1
     perm(digits) |> Enum.at(range)
   end
+
   def perm([]) do
     [[]]
   end
@@ -31,7 +32,6 @@ defmodule Problem24 do
   def perm(digits) do
     for h <- digits, t <- perm(digits -- [h]), do: [h | t]
   end
+end
 
-
-
-end # module
+# module
