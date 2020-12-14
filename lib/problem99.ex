@@ -6,6 +6,12 @@ defmodule Euler.Problem99 do
 
   @doc """
   The purpose of the `main` function is to measure the execution time of a function.
+  example
+  ## Examples
+ 
+    iex> Euler.Problem99.main()
+    :ok
+
   """
   def main() do
     # start chrono
@@ -29,7 +35,7 @@ defmodule Euler.Problem99 do
   def solve(nmax \\ 2000) do
     {:ok, data} = File.read("data/p099_base_exp.txt")
 
-    data
+    rank = data
     |> String.trim()
     |> String.split("\n")
     |> Enum.take(nmax)
@@ -41,13 +47,15 @@ defmodule Euler.Problem99 do
     end)
     |> Enum.with_index()
     |> Enum.reduce({{1, 1}, -1}, fn x, acc -> max_p(x, acc) end)
+    |> elem(1)
+    rank + 1
   end
 
   def max_p(
         {{base_1, exp_1}, _index_1} = var_1,
         {{base_2, exp_2}, _index_2} = var_2
       ) do
-    IO.inspect({:base_1, base_1, :base_2, base_2})
+    # IO.inspect({:base_1, base_1, :base_2, base_2})
     v_1 = exp_1 * :math.log10(base_1)
     v_2 = exp_2 * :math.log10(base_2)
 

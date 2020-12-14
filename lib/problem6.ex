@@ -17,7 +17,7 @@ defmodule Euler.Problem6 do
 
 
   Find the difference between the sum of the squares of the first one hundred natural numbers 
-  and the square of the sum.`
+  and the square of the sum.
 
   """
 

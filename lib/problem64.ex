@@ -23,6 +23,7 @@ defmodule Euler.Problem64 do
     IO.puts("Result         : #{IO.inspect(result)}")
     IO.puts("Execution time : #{delta_sec}sec,  #{delta_msec}msec #{delta_micsec} microsec")
   end
+
   def solve(nmax) do
     nmax
   end
